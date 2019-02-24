@@ -1,0 +1,12 @@
+[package]
+name = "mysql_fetcher"
+version = "0.1.0"
+authors = ["Rohit Joshi <rohit.c.joshi@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+log="*"
+mysql = "12.1.0"
+serde = "1.0.27"
+serde_derive = "1.0.27"
+serde_json="*"
