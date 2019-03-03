@@ -1,27 +1,25 @@
-
-use std::str;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::prelude::*;
-
+use std::str;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum WhereClauseDataType {
     UnixTime,
-    ID
+    ID,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct KeyValConfig {
-    pub key_index : usize,
-    pub val_index : usize,
+    pub key_index: usize,
+    pub val_index: usize,
 }
 
 impl KeyValConfig {
     pub fn new(key_index: usize, val_index: usize) -> KeyValConfig {
         KeyValConfig {
             key_index,
-            val_index
+            val_index,
         }
     }
 }
@@ -29,46 +27,45 @@ impl KeyValConfig {
 impl Default for KeyValConfig {
     fn default() -> KeyValConfig {
         KeyValConfig {
-            key_index : 1,
-            val_index : 2
+            key_index: 1,
+            val_index: 2,
         }
     }
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct TableConfig {
-    pub kanudo_table_name : String,
-    pub select_query : String,
-    pub count_query : String,
+    pub kanudo_table_name: String,
+    pub select_query: String,
+    pub count_query: String,
     pub where_clause_type: WhereClauseDataType,
-    pub id_index : usize,
-    pub key_val_pairs : Vec<KeyValConfig>,
+    pub id_index: usize,
+    pub key_val_pairs: Vec<KeyValConfig>,
     pub offset: u64,
-    pub last_updated : String,
-    pub total_rows : u64
-
+    pub last_updated: String,
+    pub total_rows: u64,
 }
 
 impl Default for TableConfig {
-
     fn default() -> TableConfig {
         let mut key_val = Vec::with_capacity(1);
-        key_val.push(KeyValConfig::new(1,2));
-        key_val.push(KeyValConfig::new(2,3));
+        key_val.push(KeyValConfig::new(1, 2));
+        key_val.push(KeyValConfig::new(2, 3));
         TableConfig {
-            kanudo_table_name : "turing_vault_pan".to_string(),
-            select_query : "select id, hash, token, enc_value from turing_vault_pan where id > {id} ".to_owned(),
-            count_query : "select COUNT(*) from turing_vault_pan where id > {id} ".to_owned(),
-            where_clause_type : WhereClauseDataType::ID,
+            kanudo_table_name: "turing_vault_pan".to_string(),
+            select_query:
+                "select id, hash, token, enc_value from turing_vault_pan where id > {id} "
+                    .to_owned(),
+            count_query: "select COUNT(*) from turing_vault_pan where id > {id} ".to_owned(),
+            where_clause_type: WhereClauseDataType::ID,
             id_index: 0,
-            key_val_pairs : key_val,
-            offset : 0,
+            key_val_pairs: key_val,
+            offset: 0,
             last_updated: "".to_string(),
-            total_rows: 0
+            total_rows: 0,
         }
     }
 }
-
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct DbConfig {
@@ -86,7 +83,7 @@ pub struct DbConfig {
 impl Default for DbConfig {
     fn default() -> DbConfig {
         DbConfig {
-            host : "localhost".to_owned(),
+            host: "localhost".to_owned(),
             port: 3306,
             user: "root".to_owned(),
             password: "root1234".to_owned(),
@@ -94,7 +91,7 @@ impl Default for DbConfig {
             read_timeout: 60000,
             write_timeout: 60000,
             tcp_connect_timeout: 60000,
-            tcp_keepalive_time: 60000
+            tcp_keepalive_time: 60000,
         }
     }
 }
@@ -102,8 +99,8 @@ impl Default for DbConfig {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MySqlConfig {
     pub enabled: bool,
-    pub db_config : DbConfig,
-    pub tables : HashMap<String, TableConfig>,
+    pub db_config: DbConfig,
+    pub tables: HashMap<String, TableConfig>,
     pub periodic_fetch_duration: u32,
     pub fetch_limit: usize,
 }
@@ -114,15 +111,13 @@ impl Default for MySqlConfig {
         tables.insert("turing_vault_pan".to_string(), TableConfig::default());
         MySqlConfig {
             enabled: true,
-            db_config:DbConfig::default(),
+            db_config: DbConfig::default(),
             tables,
             periodic_fetch_duration: 10000,
             fetch_limit: 5000,
-
         }
     }
 }
-
 
 impl MySqlConfig {
     pub fn from_file(file: &str) -> MySqlConfig {

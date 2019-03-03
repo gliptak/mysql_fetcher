@@ -75,10 +75,10 @@ impl MySqlUtils {
         }
     }
     pub fn get_table_count(pool: &mysql::Pool, query: &str) -> Result<u64, String> {
-
         debug!("sql_table_count_query:{}", query);
         let mut total_count = 0u64;
-        let _res = pool.prep_exec(query, ())
+        let _res = pool
+            .prep_exec(query, ())
             .map(|mut result| {
                 trace!("sql_count_query result:{:?}", result);
 
@@ -100,18 +100,21 @@ impl MySqlUtils {
                 // In our example, we are only going to log the error to STDOUT.
                 error!("Failed to fetch row. Error {:?}", err);
                 //return Err(format!("{:?}", err));
-
             });
 
         Ok(total_count)
     }
 
-    pub fn fetch_rows(pool: &mysql::Pool, query: &str, limit: usize) -> Result<Vec<Vec<String>>, String> {
+    pub fn fetch_rows(
+        pool: &mysql::Pool,
+        query: &str,
+        limit: usize,
+    ) -> Result<Vec<Vec<String>>, String> {
         debug!("sql_fetch_rows_query:{}", query);
         let mut rows = Vec::with_capacity(limit);
-        let _res = pool.prep_exec(&query, ())
+        let _res = pool
+            .prep_exec(&query, ())
             .map(|result| {
-
                 for row in result {
                     let r = row.unwrap();
                     debug!("row:{:?}", r);
@@ -122,8 +125,6 @@ impl MySqlUtils {
                     }
                     rows.push(row_vec);
                 }
-
-
             })
             .map_err(|err| {
                 // All tasks must have an `Error` type of `()`. This forces error
@@ -132,10 +133,7 @@ impl MySqlUtils {
                 // In our example, we are only going to log the error to STDOUT.
                 error!("Failed to fetch row. Error {:?}", err);
                 //Err(err.to_string())
-
             });
         Ok(rows)
-
-
     }
 }
