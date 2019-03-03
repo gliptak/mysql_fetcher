@@ -4,9 +4,19 @@ version = "0.1.0"
 authors = ["Rohit Joshi <rohit.c.joshi@gmail.com>"]
 edition = "2018"
 
+description = "Fetch data from mysql periodically"
+keywords=["mysql", "util"]
+License="Apache 2.0"
+license-file="LICENSE"
+
+[badges]
+travis-ci = { repository = "https://github.com/rohitjoshi/mysql_fetcher", branch = "master" }
+codecov = { repository = "https://github.com/rohitjoshi/mysql_fetcher", branch = "master", service = "github" }
+
+
 [dependencies]
-log="*"
+log="0.4.6"
 mysql = "12.1.0"
 serde = "1.0.27"
 serde_derive = "1.0.27"
-serde_json="*"
+serde_json="1.0.36"
