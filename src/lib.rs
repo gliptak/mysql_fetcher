@@ -120,8 +120,11 @@ impl MySqlUpdater {
                 std::thread::sleep(Duration::from_millis(
                     self.config.periodic_fetch_duration.into(),
                 ));
+            } else {
+                info!("Shutdown received. Exiting from MySqlUpdater::run");
             }
         }
+        info!("MySqlUpdater::run exited");
         Ok(())
     }
 }
