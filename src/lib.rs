@@ -1,3 +1,10 @@
+/************************************************
+
+   File: lib:MySqlUpdater
+   Author: Rohit Joshi
+   LICENSE: Apache 2.0
+
+**************************************************/
 #[macro_use]
 extern crate log;
 #[macro_use]
