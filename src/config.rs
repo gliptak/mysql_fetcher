@@ -1,3 +1,10 @@
+/************************************************
+
+   File: config:MySqlConfig
+   Author: Rohit Joshi
+   LICENSE: Apache 2.0
+
+**************************************************/
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::prelude::*;
@@ -11,17 +18,15 @@ pub enum WhereClauseDataType {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct KeyValConfig {
-    pub key_index: usize,
-    pub val_index: usize,
-    pub key_format : String
+    pub key_format : String,
+    pub val_format : String
 }
 
 impl KeyValConfig {
-    pub fn new(key_index: usize, val_index: usize, key_format: &str) -> KeyValConfig {
+    pub fn new(key_format: &str, val_format: &str) -> KeyValConfig {
         KeyValConfig {
-            key_index,
-            val_index,
-            key_format : key_format.to_string()
+            key_format : key_format.to_string(),
+            val_format : val_format.to_string()
         }
     }
 }
@@ -29,9 +34,8 @@ impl KeyValConfig {
 impl Default for KeyValConfig {
     fn default() -> KeyValConfig {
         KeyValConfig {
-            key_index: 1,
-            val_index: 2,
-            key_format: "{key}pan".to_string()
+            key_format: "{1}pan".to_string(),
+            val_format: "{2}".to_string()
         }
     }
 }
@@ -52,8 +56,8 @@ pub struct TableConfig {
 impl Default for TableConfig {
     fn default() -> TableConfig {
         let mut key_val = Vec::with_capacity(1);
-        key_val.push(KeyValConfig::new(1, 2, "{key}pan"));
-        key_val.push(KeyValConfig::new(2, 3, "{key}pan"));
+        key_val.push(KeyValConfig::new("{1}pan", "{2}"));
+        key_val.push(KeyValConfig::new("{2}pan", "{3}"));
         TableConfig {
             kanudo_table_name: "turing_vault_pan".to_string(),
             select_query:
