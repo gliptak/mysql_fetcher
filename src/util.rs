@@ -1,3 +1,10 @@
+/************************************************
+
+   File: util:MySqlUtils
+   Author: Rohit Joshi
+   LICENSE: Apache 2.0
+
+**************************************************/
 use crate::config::DbConfig;
 use mysql;
 use mysql::{from_row, from_value, Value};
