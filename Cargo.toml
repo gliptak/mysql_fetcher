@@ -1,6 +1,6 @@
 [package]
 name = "mysql_fetcher"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Rohit Joshi <rohit.c.joshi@gmail.com>"]
 edition = "2018"
 
