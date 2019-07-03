@@ -18,13 +18,15 @@ pub enum WhereClauseDataType {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct KeyValConfig {
+    pub table_name: String,
     pub key_format : String,
     pub val_format : String
 }
 
 impl KeyValConfig {
-    pub fn new(key_format: &str, val_format: &str) -> KeyValConfig {
+    pub fn new(table_name: &str, key_format: &str, val_format: &str) -> KeyValConfig {
         KeyValConfig {
+            table_name : table_name.to_string(),
             key_format : key_format.to_string(),
             val_format : val_format.to_string()
         }
@@ -34,6 +36,7 @@ impl KeyValConfig {
 impl Default for KeyValConfig {
     fn default() -> KeyValConfig {
         KeyValConfig {
+            table_name : "".to_string(),
             key_format: "{1}pan".to_string(),
             val_format: "{2}".to_string()
         }
@@ -42,7 +45,6 @@ impl Default for KeyValConfig {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct TableConfig {
-    pub kanudo_table_name: String,
     pub select_query: String,
     pub count_query: String,
     pub where_clause_type: WhereClauseDataType,
@@ -56,10 +58,9 @@ pub struct TableConfig {
 impl Default for TableConfig {
     fn default() -> TableConfig {
         let mut key_val = Vec::with_capacity(1);
-        key_val.push(KeyValConfig::new("{1}pan", "{2}"));
-        key_val.push(KeyValConfig::new("{2}pan", "{3}"));
+        key_val.push(KeyValConfig::new("path_t", "{1}pan", "{2}"));
+        key_val.push(KeyValConfig::new("pan_d", "{2}pan", "{3}"));
         TableConfig {
-            kanudo_table_name: "turing_vault_pan".to_string(),
             select_query:
                 "select id, hash, token, enc_value from turing_vault_pan where id > {id} "
                     .to_owned(),
