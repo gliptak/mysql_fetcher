@@ -6,8 +6,7 @@ edition = "2018"
 
 description = "Fetch data from mysql periodically"
 keywords=["mysql", "util"]
-License="Apache 2.0"
-license-file="LICENSE"
+license="Apache 2.0"
 
 [badges]
 travis-ci = { repository = "https://github.com/rohitjoshi/mysql_fetcher", branch = "master" }

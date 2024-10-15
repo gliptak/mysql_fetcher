@@ -6,8 +6,6 @@
 
 **************************************************/
 use crate::config::DbConfig;
-use mysql;
-use mysql::{from_row, from_value, Value};
 use std;
 pub struct MySqlUtils {}
 impl MySqlUtils {
@@ -43,33 +41,33 @@ impl MySqlUtils {
     }
     pub fn convert_to_sql_string(val: mysql::Value) -> String {
         match val {
-            Value::NULL => "".into(),
-            Value::Int(x) => format!("{}", x),
-            Value::UInt(x) => format!("{}", x),
-            Value::Float(x) => format!("{}", x),
-            Value::Date(y, m, d, 0, 0, 0, 0) => format!("{:04}-{:02}-{:02}", y, m, d),
-            Value::Date(y, m, d, h, i, s, 0) => {
+            mysql::Value::NULL => "".into(),
+            mysql::Value::Int(x) => format!("{}", x),
+            mysql::Value::UInt(x) => format!("{}", x),
+            mysql::Value::Float(x) => format!("{}", x),
+            mysql::Value::Date(y, m, d, 0, 0, 0, 0) => format!("{:04}-{:02}-{:02}", y, m, d),
+            mysql::Value::Date(y, m, d, h, i, s, 0) => {
                 format!("{:04}-{:02}-{:02} {:02}:{:02}:{:02}", y, m, d, h, i, s)
             }
-            Value::Date(y, m, d, h, i, s, u) => format!(
+            mysql::Value::Date(y, m, d, h, i, s, u) => format!(
                 "'{:04}-{:02}-{:02} {:02}:{:02}:{:02}.{:06}'",
                 y, m, d, h, i, s, u
             ),
-            Value::Time(neg, d, h, i, s, 0) => {
+            mysql::Value::Time(neg, d, h, i, s, 0) => {
                 if neg {
                     format!("-{:03}:{:02}:{:02}", d * 24 + u32::from(h), i, s)
                 } else {
                     format!("{:03}:{:02}:{:02}", d * 24 + u32::from(h), i, s)
                 }
             }
-            Value::Time(neg, d, h, i, s, u) => {
+            mysql::Value::Time(neg, d, h, i, s, u) => {
                 if neg {
                     format!("-{:03}:{:02}:{:02}.{:06}", d * 24 + u32::from(h), i, s, u)
                 } else {
                     format!("{:03}:{:02}:{:02}.{:06}", d * 24 + u32::from(h), i, s, u)
                 }
             }
-            Value::Bytes(bytes) => match String::from_utf8(bytes.to_vec()) {
+            mysql::Value::Bytes(bytes) => match String::from_utf8(bytes.to_vec()) {
                 Ok(s) => s,
                 Err(_) => {
                     let mut s = String::from("0x");
